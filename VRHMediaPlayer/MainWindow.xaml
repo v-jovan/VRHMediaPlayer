@@ -1,0 +1,24 @@
+﻿<Window x:Class="VRHMediaPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VRHMediaPlayer"
+        mc:Ignorable="d"
+        Title="VRHPlayer" Height="500" Width="600" MinWidth="600" MinHeight="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="86*"/>
+            <RowDefinition Height="35*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="10,10,10,10" Background="Black">
+            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" />
+            <Image x:Name="splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_no_color.png" SnapsToDevicePixels="True" Stretch="None" Panel.ZIndex="2" />
+        </Grid>
+        <Grid Margin="10,1,10,100
+              " Grid.Row="1">
+            <Slider Margin="10,0,10,10" TickPlacement="BottomRight" TickFrequency="0.25"/>
+        </Grid>
+
+    </Grid>
+</Window>

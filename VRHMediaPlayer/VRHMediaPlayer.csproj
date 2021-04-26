@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>vrh.ico</ApplicationIcon>
+    <Authors>Jovan Vrhovac</Authors>
+    <Company>ETF</Company>
+    <Description>A simple media player.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="images\folder-open-outline.png" />
+    <None Remove="images\splash_no_color.png" />
+    <None Remove="images\splash_picture.png" />
+    <None Remove="images\splash_text.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\folder-open-outline.png" />
+    <Resource Include="images\splash_no_color.png" />
+    <Resource Include="images\splash_picture.png" />
+    <Resource Include="images\splash_text.png" />
+  </ItemGroup>
+
+</Project>
