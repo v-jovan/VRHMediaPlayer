@@ -12,12 +12,11 @@
             <RowDefinition Height="35*"/>
         </Grid.RowDefinitions>
         <Grid Margin="10,10,10,10" Background="Black">
-            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" />
-            <Image x:Name="splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_no_color.png" SnapsToDevicePixels="True" Stretch="None" Panel.ZIndex="2" />
+            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+            <Image x:Name="splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" SnapsToDevicePixels="True" Panel.ZIndex="2" />
         </Grid>
-        <Grid Margin="10,1,10,100
-              " Grid.Row="1">
-            <Slider Margin="10,0,10,10" TickPlacement="BottomRight" TickFrequency="0.25"/>
+        <Grid Margin="10,1,10,100" Grid.Row="1">
+            <Slider Margin="10,0,10,10" TickPlacement="BottomRight" TickFrequency="0.25" />
         </Grid>
 
     </Grid>

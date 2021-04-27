@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="images\folder-open-outline.png" />
-    <None Remove="images\splash_no_color.png" />
-    <None Remove="images\splash_picture.png" />
-    <None Remove="images\splash_text.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +21,7 @@
     <Resource Include="images\folder-open-outline.png" />
     <Resource Include="images\splash_no_color.png" />
     <Resource Include="images\splash_picture.png" />
+    <Resource Include="images\splash_screen.png" />
     <Resource Include="images\splash_text.png" />
   </ItemGroup>
 
