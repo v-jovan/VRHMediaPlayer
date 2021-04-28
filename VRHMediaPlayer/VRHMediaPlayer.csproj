@@ -11,6 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\icon-fullscreen.png" />
+    <None Remove="images\icon-import.png" />
+    <None Remove="images\icon-mute.png" />
+    <None Remove="images\icon-next.png" />
+    <None Remove="images\icon-pause.png" />
+    <None Remove="images\icon-play.png" />
+    <None Remove="images\icon-prev.png" />
+    <None Remove="images\icon-repeat.png" />
+    <None Remove="images\icon-stop.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,11 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="images\folder-open-outline.png" />
-    <Resource Include="images\splash_no_color.png" />
-    <Resource Include="images\splash_picture.png" />
+    <Resource Include="images\icon-fullscreen.png" />
+    <Resource Include="images\icon-import.png" />
+    <Resource Include="images\icon-mute.png" />
+    <Resource Include="images\icon-next.png" />
+    <Resource Include="images\icon-pause.png" />
+    <Resource Include="images\icon-play.png" />
+    <Resource Include="images\icon-prev.png" />
+    <Resource Include="images\icon-repeat.png" />
+    <Resource Include="images\icon-stop.png" />
     <Resource Include="images\splash_screen.png" />
-    <Resource Include="images\splash_text.png" />
   </ItemGroup>
 
 </Project>

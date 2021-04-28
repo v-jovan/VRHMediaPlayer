@@ -5,19 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VRHMediaPlayer"
         mc:Ignorable="d"
-        Title="VRHPlayer" Height="500" Width="600" MinWidth="600" MinHeight="500">
-    <Grid>
+        Title="VRHPlayer" Height="500" Width="600" MinWidth="600" MinHeight="500"
+        UseLayoutRounding="True">
+    <Grid Margin="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="86*"/>
-            <RowDefinition Height="35*"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Margin="10,10,10,10" Background="Black">
+        <Grid Margin="0,10,0,0" Background="Black">
             <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
-            <Image x:Name="splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" SnapsToDevicePixels="True" Panel.ZIndex="2" />
+            <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="2" />
         </Grid>
-        <Grid Margin="10,1,10,100" Grid.Row="1">
-            <Slider Margin="10,0,10,10" TickPlacement="BottomRight" TickFrequency="0.25" />
+        <Grid Margin="0,0,0,77" Grid.Row="1">
+            <Slider x:Name="Slider" Margin="40,3,40,0"  TickFrequency="0.25" Padding="2" />
+            <Label x:Name="CurrentTime" Content="--:--" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="Duration" Content="--:--" HorizontalAlignment="Right" Margin="0,2,5,0" VerticalAlignment="Top"/>
         </Grid>
-
+        <Grid HorizontalAlignment="Right" Height="72" Margin="0,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="195">
+            <Slider HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="49,19,0,0"  Height="30" TickPlacement="BottomRight"/>
+            <Button HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Padding="5" Width="20" Height="20">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-mute.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="72" Margin="10,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="220">
+            <Button HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-play.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-prev.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-stop.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-next.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="72" Margin="234,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="158">
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="12,0,0,0">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-repeat.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="61,0,0,0">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-import.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="110,0,0,0">
+                <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-fullscreen.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+            </Button>
+        </Grid>
     </Grid>
 </Window>
