@@ -24,5 +24,11 @@ namespace VRHMediaPlayer
         {
             InitializeComponent();
         }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
     }
 }

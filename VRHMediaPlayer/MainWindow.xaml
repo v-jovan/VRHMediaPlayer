@@ -12,7 +12,17 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Margin="0,10,0,0" Background="Black">
+        <Menu DockPanel.Dock="Top" FontSize="12">
+            <MenuItem Header="Menu" Height="20">
+                <MenuItem Header="_Themes" />
+                <Separator />
+                <MenuItem Header="_Exit" Click="MenuExit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Info" Height="20">
+                <MenuItem Header="About the player" />
+            </MenuItem>
+        </Menu>
+        <Grid Margin="0,22,0,0" Background="Black">
             <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
             <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="2" />
         </Grid>
@@ -28,7 +38,7 @@
             </Button>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="72" Margin="10,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="220">
-            <Button HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50">
+            <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-play.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
