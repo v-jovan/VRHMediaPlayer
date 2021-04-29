@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:VRHMediaPlayer"
         mc:Ignorable="d"
         Title="VRHPlayer" Height="500" Width="600" MinWidth="600" MinHeight="500"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -19,7 +20,11 @@
                 <MenuItem Header="_Exit" Click="MenuExit_Click"/>
             </MenuItem>
             <MenuItem Header="Info" Height="20">
-                <MenuItem Header="About the player" />
+                <MenuItem Header="About the player">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/VRHMediaPlayer;component//images/icon-info.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Grid Margin="0,22,0,0" Background="Black">
@@ -32,19 +37,19 @@
             <Label x:Name="Duration" Content="--:--" HorizontalAlignment="Right" Margin="0,2,5,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid HorizontalAlignment="Right" Height="72" Margin="0,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="195">
-            <Slider HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="49,19,0,0"  Height="30" TickPlacement="BottomRight"/>
-            <Button HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Padding="5" Width="20" Height="20">
+            <Slider x:Name="VolumeSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="49,19,0,0"  Height="30" TickPlacement="BottomRight" ValueChanged="VolumeSlider_ValueChanged"/>
+            <Button x:Name="MuteButton" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Padding="5" Width="20" Height="20" Click="MuteButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-mute.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="72" Margin="10,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="220">
-            <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50">
+            <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50" Click="PlayPauseButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-play.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-prev.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40">
+            <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Click="Button_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-stop.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
@@ -55,7 +60,7 @@
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="12,0,0,0">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-repeat.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="61,0,0,0">
+            <Button x:Name="OpenButton" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="61,0,0,0" Click="OpenButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-import.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="110,0,0,0">

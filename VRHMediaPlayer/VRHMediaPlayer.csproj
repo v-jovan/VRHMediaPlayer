@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="images\icon-fullscreen.png" />
     <None Remove="images\icon-import.png" />
+    <None Remove="images\icon-info.png" />
     <None Remove="images\icon-mute.png" />
     <None Remove="images\icon-next.png" />
     <None Remove="images\icon-pause.png" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <Resource Include="images\icon-fullscreen.png" />
     <Resource Include="images\icon-import.png" />
+    <Resource Include="images\icon-info.png" />
     <Resource Include="images\icon-mute.png" />
     <Resource Include="images\icon-next.png" />
     <Resource Include="images\icon-pause.png" />
