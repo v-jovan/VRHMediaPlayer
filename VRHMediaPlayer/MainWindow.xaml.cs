@@ -22,16 +22,14 @@ namespace VRHMediaPlayer
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly string TITLE = "VRHPlayer";
-
         private readonly DispatcherTimer timer;
         private readonly OpenFileDialog ofd;
+        private bool mediaPlayerIsPlaying = false;
+        private bool userIsDraggingSlider = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            Title = TITLE;
             MediaPlayer.Volume = VolumeSlider.Value;
 
             ofd = new OpenFileDialog
@@ -53,16 +51,16 @@ namespace VRHMediaPlayer
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (MediaPlayer.NaturalDuration.HasTimeSpan)
+            if ((MediaPlayer.Source != null) && (MediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
+                Slider.Minimum = 0;
+                Slider.Maximum = MediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                Slider.Value = MediaPlayer.Position.TotalSeconds;
+           
                 CurrentTime.Content = MediaPlayer.Position.TotalMinutes.ToString("00") + ":" + MediaPlayer.Position.Seconds.ToString("00");
                 Duration.Content = MediaPlayer.NaturalDuration.TimeSpan.TotalMinutes.ToString("00") + ":" + MediaPlayer.NaturalDuration.TimeSpan.Seconds.ToString("00");
             }
-            else
-            {
-                CurrentTime.Content = "00:00";
-                Duration.Content = "00:00";
-            }
+
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
@@ -73,13 +71,18 @@ namespace VRHMediaPlayer
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
             MediaPlayer.Play();
+            if (mediaPlayerIsPlaying)
+            {
+                Splash.Visibility = Visibility.Hidden;
+            }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             MediaPlayer.Stop();
-            CurrentTime.Content = "00:00";
-            Duration.Content = "00:00";
+            CurrentTime.Content = "--:--";
+            Duration.Content = "--:--";
+            mediaPlayerIsPlaying = false;
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -88,8 +91,8 @@ namespace VRHMediaPlayer
             if (dr.HasValue && dr.Value)
             {
                 MediaPlayer.Source = new Uri(ofd.FileName);
-                Title = TITLE + " - " + ofd.FileName;
             }
+            mediaPlayerIsPlaying = true;
         }
 
         private void MuteButton_Click(object sender, RoutedEventArgs e)
@@ -100,6 +103,27 @@ namespace VRHMediaPlayer
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MediaPlayer.Volume = VolumeSlider.Value;
+        }
+
+        private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            userIsDraggingSlider = true;
+        }
+
+        private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            userIsDraggingSlider = false;
+            MediaPlayer.Position = TimeSpan.FromSeconds(Slider.Value);
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CurrentTime.Content = TimeSpan.FromSeconds(Slider.Value).ToString(@"mm\:ss");
+        }
+
+        private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            MediaPlayer.Stop();
         }
     }
 }

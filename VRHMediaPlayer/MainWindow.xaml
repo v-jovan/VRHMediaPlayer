@@ -28,16 +28,16 @@
             </MenuItem>
         </Menu>
         <Grid Margin="0,22,0,0" Background="Black">
-            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" />
             <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="2" />
         </Grid>
         <Grid Margin="0,0,0,77" Grid.Row="1">
-            <Slider x:Name="Slider" Margin="40,3,40,0"  TickFrequency="0.25" Padding="2" />
+            <Slider x:Name="Slider" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0"  TickFrequency="0.25" Padding="2" />
             <Label x:Name="CurrentTime" Content="--:--" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top"/>
             <Label x:Name="Duration" Content="--:--" HorizontalAlignment="Right" Margin="0,2,5,0" VerticalAlignment="Top"/>
         </Grid>
         <Grid HorizontalAlignment="Right" Height="72" Margin="0,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="195">
-            <Slider x:Name="VolumeSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="49,19,0,0"  Height="30" TickPlacement="BottomRight" ValueChanged="VolumeSlider_ValueChanged"/>
+            <Slider x:Name="VolumeSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="49,19,0,0"  Height="30" TickPlacement="BottomRight" ValueChanged="VolumeSlider_ValueChanged" Minimum="0" Maximum="1" Value="{Binding ElementName=MediaPlayer, Path=Volume}"/>
             <Button x:Name="MuteButton" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center" Padding="5" Width="20" Height="20" Click="MuteButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-mute.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
@@ -49,7 +49,7 @@
             <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-prev.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Click="Button_Click">
+            <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Click="StopButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-stop.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
