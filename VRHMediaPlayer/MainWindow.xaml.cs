@@ -38,7 +38,7 @@ namespace VRHMediaPlayer
                 RestoreDirectory = true,
                 Title = "Open Media File...",
                 Filter = "Audio Files|*.mp3|Video Files|*.mp4;*.avi|All Files|*.*",
-                FilterIndex = 3
+                FilterIndex = 1
             };
 
             timer = new DispatcherTimer
@@ -47,18 +47,19 @@ namespace VRHMediaPlayer
             };
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
+
+            Slider.IsEnabled = false;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if ((MediaPlayer.Source != null) && (MediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            if ((MediaPlayer.Source != null) && (MediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider) && (mediaPlayerIsPlaying))
             {
-                Slider.Minimum = 0;
                 Slider.Maximum = MediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
                 Slider.Value = MediaPlayer.Position.TotalSeconds;
            
-                CurrentTime.Content = MediaPlayer.Position.TotalMinutes.ToString("00") + ":" + MediaPlayer.Position.Seconds.ToString("00");
-                Duration.Content = MediaPlayer.NaturalDuration.TimeSpan.TotalMinutes.ToString("00") + ":" + MediaPlayer.NaturalDuration.TimeSpan.Seconds.ToString("00");
+                CurrentTime.Content = MediaPlayer.Position.ToString(@"mm\:ss");
+                Duration.Content = MediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
 
         }
@@ -70,10 +71,22 @@ namespace VRHMediaPlayer
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
-            MediaPlayer.Play();
-            if (mediaPlayerIsPlaying)
+            
+            if (PlayPauseButton.Content == FindResource("Play") && (mediaPlayerIsPlaying))
             {
-                Splash.Visibility = Visibility.Hidden;
+                Slider.Minimum = 0;
+                PlayPauseButton.Content = FindResource("Stop");
+                MediaPlayer.Play();
+                if (mediaPlayerIsPlaying)
+                {
+                    Slider.IsEnabled = true;
+                    Splash.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                PlayPauseButton.Content = FindResource("Play");
+                MediaPlayer.Pause();
             }
         }
 
@@ -83,6 +96,9 @@ namespace VRHMediaPlayer
             CurrentTime.Content = "--:--";
             Duration.Content = "--:--";
             mediaPlayerIsPlaying = false;
+            Slider.Value = 0;
+            Slider.IsEnabled = false;
+            PlayPauseButton.Content = FindResource("Play");
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
@@ -93,6 +109,12 @@ namespace VRHMediaPlayer
                 MediaPlayer.Source = new Uri(ofd.FileName);
             }
             mediaPlayerIsPlaying = true;
+
+            if (MediaPlayer.Source != null)
+            {
+                Splash.Visibility = Visibility.Hidden;
+            }
+
         }
 
         private void MuteButton_Click(object sender, RoutedEventArgs e)
@@ -124,6 +146,8 @@ namespace VRHMediaPlayer
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             MediaPlayer.Stop();
+            PlayPauseButton.Content = FindResource("Play");
         }
+
     }
 }
