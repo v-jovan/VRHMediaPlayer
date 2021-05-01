@@ -4,14 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VRHMediaPlayer"
+        xmlns:main="clr-namespace:VRHMediaPlayer"
         mc:Ignorable="d"
         Title="VRHPlayer" Height="500" Width="600" MinWidth="600" MinHeight="500"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
         <Image x:Key="Play" Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-play.png" RenderOptions.BitmapScalingMode="HighQuality" />
-        <Image x:Key="Stop" Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-pause.png" RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Key="Pause" Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-pause.png" RenderOptions.BitmapScalingMode="HighQuality" />
     </Window.Resources>
+
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -32,9 +35,9 @@
             </MenuItem>
         </Menu>
         <Grid Margin="0,22,0,0" Background="Black">
-            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" />
-            <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="2" />
-            <ListBox x:Name="Playlist" HorizontalAlignment="Center" Height="348" VerticalAlignment="Center" Width="600"/>
+            <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" Panel.ZIndex="1" />
+            <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" />
+            <ListBox x:Name="Playlist" Padding="3" SelectionChanged="Playlist_SelectionChanged" TextElement.Foreground="White" HorizontalAlignment="Center" Height="328" VerticalAlignment="Center" Width="585" Panel.ZIndex="2"/>
         </Grid>
         <Grid Margin="0,0,0,77" Grid.Row="1">
             <Slider x:Name="Slider" IsMoveToPointEnabled="True" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0" TickFrequency="0.25" Padding="2" />
@@ -51,13 +54,13 @@
             <Button x:Name="PlayPauseButton" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center" Padding="10" Width="50" Height="50" Click="PlayPauseButton_Click">
                 <DynamicResource ResourceKey="Play"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
+            <Button HorizontalAlignment="Left" Margin="79,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40" Click="Previous_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-prev.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="127,0,0,0" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Click="StopButton_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-stop.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40">
+            <Button HorizontalAlignment="Left" Margin="175,0,0,0" VerticalAlignment="Center" Padding="8" Width="40" Height="40" Click="Next_Click">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-next.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
         </Grid>

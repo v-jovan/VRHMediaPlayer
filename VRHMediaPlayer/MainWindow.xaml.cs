@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,21 +24,34 @@ namespace VRHMediaPlayer
     public partial class MainWindow : Window
     {
         private readonly DispatcherTimer timer;
-        private readonly OpenFileDialog ofd;
+        private readonly OpenFileDialog ofd_one, ofd_playlist;
         private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
+        private bool repeat = false;
+        private bool mute = false;
+        private double currentVolume = 0;
+        private List<string> songs_in_playlist = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             MediaPlayer.Volume = VolumeSlider.Value;
 
-            ofd = new OpenFileDialog
+            ofd_playlist = new OpenFileDialog
+            {
+                Multiselect = true,
+                RestoreDirectory = true,
+                Title = "Open Files...",
+                Filter = "Audio Files|*.mp3|Video Files|*.mp4;*.avi|All Files|*.*",
+                FilterIndex = 1
+            };
+
+            ofd_one = new OpenFileDialog
             {
                 Multiselect = false,
                 RestoreDirectory = true,
-                Title = "Open Media File...",
-                Filter = "Audio Files|*.mp3|Video Files|*.mp4;*.avi|All Files|*.*",
+                Title = "Open Music Files...",
+                Filter = "Audio Files|*.mp3",
                 FilterIndex = 1
             };
 
@@ -61,7 +75,14 @@ namespace VRHMediaPlayer
                 CurrentTime.Content = MediaPlayer.Position.ToString(@"mm\:ss");
                 Duration.Content = MediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
-
+            else
+            {
+                if (repeat)
+                {
+                    MediaPlayer.Position = TimeSpan.Zero;
+                    MediaPlayer.Play();
+                }
+            }
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
@@ -72,10 +93,21 @@ namespace VRHMediaPlayer
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
             
-            if (PlayPauseButton.Content == FindResource("Play") && (mediaPlayerIsPlaying))
+            if (PlayPauseButton.Content == FindResource("Play"))
             {
+                if ((Playlist.Items.IsEmpty) && (!mediaPlayerIsPlaying))
+                {
+                    bool? dr = ofd_one.ShowDialog();
+                    if (dr.HasValue && dr.Value)
+                    {
+                        Playlist.Items.Add(System.IO.Path.GetFileNameWithoutExtension(ofd_one.FileName));
+                        MediaPlayer.Source = new Uri(ofd_one.FileName);
+                    }
+                    mediaPlayerIsPlaying = true;
+
+                }
                 Slider.Minimum = 0;
-                PlayPauseButton.Content = FindResource("Stop");
+                PlayPauseButton.Content = FindResource("Pause");
                 MediaPlayer.Play();
                 if (mediaPlayerIsPlaying)
                 {
@@ -103,10 +135,19 @@ namespace VRHMediaPlayer
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            bool? dr = ofd.ShowDialog();
+            bool? dr = ofd_playlist.ShowDialog();
             if (dr.HasValue && dr.Value)
             {
-                MediaPlayer.Source = new Uri(ofd.FileName);
+
+                string[] songs = ofd_playlist.FileNames;
+                songs_in_playlist.AddRange(songs);
+
+                string[] lines = ofd_playlist.SafeFileNames;
+                foreach (var line in lines)
+                {
+                    Playlist.Items.Add(System.IO.Path.GetFileNameWithoutExtension(line));
+                }
+                MediaPlayer.Source = new Uri(ofd_playlist.FileName);
             }
             mediaPlayerIsPlaying = true;
 
@@ -119,7 +160,21 @@ namespace VRHMediaPlayer
 
         private void MuteButton_Click(object sender, RoutedEventArgs e)
         {
-            VolumeSlider.Value = VolumeSlider.Minimum;
+            if (!mute)
+            {
+                currentVolume = VolumeSlider.Value;
+                mute = true;
+                VolumeSlider.Value = VolumeSlider.Minimum;
+                MediaPlayer.Volume = VolumeSlider.Minimum;
+                MuteButton.Background = Brushes.Red;
+            }
+            else
+            {
+                mute = false;
+                VolumeSlider.Value = currentVolume;
+                MediaPlayer.Volume = currentVolume;
+                MuteButton.ClearValue(Button.BackgroundProperty);
+            }
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -143,6 +198,27 @@ namespace VRHMediaPlayer
             CurrentTime.Content = TimeSpan.FromSeconds(Slider.Value).ToString(@"mm\:ss");
         }
 
+        private void Playlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MediaPlayer.Source = new Uri(songs_in_playlist.ElementAt(Playlist.SelectedIndex));
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            if (Playlist.SelectedIndex > 0)
+            {
+                Playlist.SelectedItem = --Playlist.SelectedIndex;
+            }
+        }
+
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            if (Playlist.SelectedIndex < Playlist.Items.Count - 1)
+            {
+                Playlist.SelectedItem = ++Playlist.SelectedIndex;
+            }
+        }
+
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             MediaPlayer.Stop();
@@ -150,4 +226,5 @@ namespace VRHMediaPlayer
         }
 
     }
+
 }
