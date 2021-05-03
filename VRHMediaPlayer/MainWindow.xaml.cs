@@ -1,19 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace VRHMediaPlayer
@@ -31,6 +23,8 @@ namespace VRHMediaPlayer
         private bool mute = false;
         private double currentVolume = 0;
         private List<string> songs_in_playlist = new List<string>();
+        private bool previous = false;
+        private bool fullscreen = false;
 
         public MainWindow()
         {
@@ -71,7 +65,7 @@ namespace VRHMediaPlayer
             {
                 Slider.Maximum = MediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
                 Slider.Value = MediaPlayer.Position.TotalSeconds;
-           
+
                 CurrentTime.Content = MediaPlayer.Position.ToString(@"mm\:ss");
                 Duration.Content = MediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
@@ -92,7 +86,7 @@ namespace VRHMediaPlayer
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             if (PlayPauseButton.Content == FindResource("Play"))
             {
                 if ((Playlist.Items.IsEmpty) && (!mediaPlayerIsPlaying))
@@ -101,6 +95,8 @@ namespace VRHMediaPlayer
                     if (dr.HasValue && dr.Value)
                     {
                         Playlist.Items.Add(System.IO.Path.GetFileNameWithoutExtension(ofd_one.FileName));
+                        string song = ofd_one.FileName;
+                        songs_in_playlist.Add(song);
                         MediaPlayer.Source = new Uri(ofd_one.FileName);
                     }
                     mediaPlayerIsPlaying = true;
@@ -196,16 +192,32 @@ namespace VRHMediaPlayer
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             CurrentTime.Content = TimeSpan.FromSeconds(Slider.Value).ToString(@"mm\:ss");
+            if (Slider.IsMouseCaptureWithin)
+            {
+                int pos = Convert.ToInt32(Slider.Value);
+                MediaPlayer.Position = new TimeSpan(0, 0, 0, pos, 0);
+            }
+            if ((Slider.Value == Slider.Maximum) && (repeat))
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                MediaPlayer.Play();
+            }
         }
 
         private void Playlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MediaPlayer.Source = new Uri(songs_in_playlist.ElementAt(Playlist.SelectedIndex));
+            previous = false;
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
         {
-            if (Playlist.SelectedIndex > 0)
+            if (!previous)
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                previous = true;
+            }
+            else if (Playlist.SelectedIndex > 0)
             {
                 Playlist.SelectedItem = --Playlist.SelectedIndex;
             }
@@ -219,10 +231,55 @@ namespace VRHMediaPlayer
             }
         }
 
+        private void Repeat_Click(object sender, RoutedEventArgs e)
+        {
+            if (!repeat)
+            {
+                RepeatButton.Background = Brushes.Red;
+                repeat = true;
+            }
+            else
+            {
+                RepeatButton.ClearValue(Button.BackgroundProperty);
+                repeat = false;
+            }
+        }
+
+        private void Fullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (!fullscreen)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+                Menu.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+                Menu.Visibility = Visibility.Visible;
+            }
+
+            fullscreen = !fullscreen;
+        }
+
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            MediaPlayer.Stop();
-            PlayPauseButton.Content = FindResource("Play");
+            if (repeat)
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                MediaPlayer.Play();
+            }
+            else if ((Playlist.SelectedIndex + 1) == (Playlist.Items.Count))
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.Position = TimeSpan.Zero;
+                PlayPauseButton.Content = FindResource("Play");
+            }
+            else
+            {
+                Next_Click(sender, e);
+            }
         }
 
     }
