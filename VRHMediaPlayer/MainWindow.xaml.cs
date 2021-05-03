@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -22,9 +21,10 @@ namespace VRHMediaPlayer
         private bool repeat = false;
         private bool mute = false;
         private double currentVolume = 0;
-        private List<string> songs_in_playlist = new List<string>();
+        private readonly List<string> songs_in_playlist = new List<string>();
         private bool previous = false;
         private bool fullscreen = false;
+        private string theme = "default";
 
         public MainWindow()
         {
@@ -169,7 +169,19 @@ namespace VRHMediaPlayer
                 mute = false;
                 VolumeSlider.Value = currentVolume;
                 MediaPlayer.Volume = currentVolume;
-                MuteButton.ClearValue(Button.BackgroundProperty);
+
+                if (theme == "default")
+                {
+                    MuteButton.ClearValue(Button.BackgroundProperty);
+                }
+                else if (theme == "tomato")
+                {
+                    MuteButton.Background = Brushes.Tomato;
+                }
+                else
+                {
+                    MuteButton.Background = Brushes.Lime;
+                }
             }
         }
 
@@ -240,7 +252,18 @@ namespace VRHMediaPlayer
             }
             else
             {
-                RepeatButton.ClearValue(Button.BackgroundProperty);
+                if (theme == "default")
+                {
+                    RepeatButton.ClearValue(Button.BackgroundProperty);
+                }
+                else if (theme == "tomato")
+                {
+                    RepeatButton.Background = Brushes.Tomato;
+                }
+                else
+                {
+                    RepeatButton.Background = Brushes.Lime;
+                }
                 repeat = false;
             }
         }
@@ -261,6 +284,67 @@ namespace VRHMediaPlayer
             }
 
             fullscreen = !fullscreen;
+        }
+
+        private void DefaultTheme_Click(object sender, RoutedEventArgs e)
+        {
+            TomatoTheme.IsChecked = false;
+            LimeTheme.IsChecked = false;
+
+            PlayPauseButton.ClearValue(Button.BackgroundProperty);
+            PreviousButton.ClearValue(Button.BackgroundProperty);
+            StopButton.ClearValue(Button.BackgroundProperty);
+            NextButton.ClearValue(Button.BackgroundProperty);
+            RepeatButton.ClearValue(Button.BackgroundProperty);
+            OpenButton.ClearValue(Button.BackgroundProperty);
+            FullscreenButton.ClearValue(Button.BackgroundProperty);
+            MuteButton.ClearValue(Button.BackgroundProperty);
+
+            VolumeSlider.ClearValue(Slider.ForegroundProperty);
+            Slider.ClearValue(Slider.ForegroundProperty);
+        }
+
+        private void TomatoTheme_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultTheme.IsChecked = false;
+            LimeTheme.IsChecked = false;
+            theme = "tomato";
+
+            PlayPauseButton.Background = Brushes.Tomato;
+            PreviousButton.Background = Brushes.Tomato;
+            StopButton.Background = Brushes.Tomato;
+            NextButton.Background = Brushes.Tomato;
+            RepeatButton.Background = Brushes.Tomato;
+            OpenButton.Background = Brushes.Tomato;
+            FullscreenButton.Background = Brushes.Tomato;
+            MuteButton.Background = Brushes.Tomato;
+
+            VolumeSlider.Foreground = Brushes.Tomato;
+            Slider.Foreground = Brushes.Tomato;
+        }
+
+        private void LimeTheme_Click(object sender, RoutedEventArgs e)
+        {
+            DefaultTheme.IsChecked = false;
+            TomatoTheme.IsChecked = false;
+            theme = "lime";
+
+            PlayPauseButton.Background = Brushes.Lime;
+            PreviousButton.Background = Brushes.Lime;
+            StopButton.Background = Brushes.Lime;
+            NextButton.Background = Brushes.Lime;
+            RepeatButton.Background = Brushes.Lime;
+            OpenButton.Background = Brushes.Lime;
+            FullscreenButton.Background = Brushes.Lime;
+            MuteButton.Background = Brushes.Lime;
+
+            VolumeSlider.Foreground = Brushes.Lime;
+            Slider.Foreground = Brushes.Lime;
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("VRHPlayer is a simple media player created in WPF and C#.", "About the player...", MessageBoxButton.OK);
         }
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)

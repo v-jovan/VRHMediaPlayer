@@ -11,19 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="images\icon-fullscreen.png" />
-    <None Remove="images\icon-import.png" />
-    <None Remove="images\icon-info.png" />
-    <None Remove="images\icon-mute.png" />
-    <None Remove="images\icon-next.png" />
-    <None Remove="images\icon-pause.png" />
-    <None Remove="images\icon-play.png" />
-    <None Remove="images\icon-prev.png" />
-    <None Remove="images\icon-repeat.png" />
-    <None Remove="images\icon-stop.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
   </ItemGroup>
 
