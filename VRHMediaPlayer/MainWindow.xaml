@@ -39,7 +39,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <Grid Margin="0,22,0,0" Background="Black">
+        <Grid x:Name="PlayerGrid" Margin="0,22,0,0" Background="Black">
             <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" Panel.ZIndex="1" />
             <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" />
             <ListBox x:Name="Playlist" Padding="3" SelectionChanged="Playlist_SelectionChanged" TextElement.Foreground="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Margin="5" Panel.ZIndex="2">
@@ -60,7 +60,7 @@
             </ListBox>
         </Grid>
         <Grid Margin="0,0,0,77" Grid.Row="1">
-            <Slider x:Name="Slider" IsMoveToPointEnabled="True" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0" TickFrequency="0.25" Padding="2" />
+            <Slider x:Name="Slider" IsMoveToPointEnabled="True" Thumb.DragCompleted="Slider_Dragging" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0" TickFrequency="0.25" Padding="2" />
             <Label x:Name="CurrentTime" Content="--:--" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top"/>
             <Label x:Name="Duration" Content="--:--" HorizontalAlignment="Right" Margin="0,2,5,0" VerticalAlignment="Top"/>
         </Grid>
@@ -88,7 +88,7 @@
             <Button HorizontalAlignment="Left" x:Name="RepeatButton" Click="Repeat_Click" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="12,0,0,0" ToolTip="Repeat">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-repeat.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
-            <Button x:Name="OpenButton" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="61,0,0,0" Click="OpenButton_Click" ToolTip="Create playlist">
+            <Button x:Name="OpenButton" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="61,0,0,0" Click="OpenButton_Click" ToolTip="Open multiple files..">
                 <Image Source="pack://application:,,,/VRHMediaPlayer;component/images/icon-import.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
             <Button x:Name="FullscreenButton" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="10" Width="40" Height="40" Margin="110,0,0,0" Click="Fullscreen_Click" ToolTip="Fullscreen">
