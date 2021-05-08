@@ -11,6 +11,8 @@ namespace VRHMediaPlayer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// Created by: Jovan Vrhovac
+    /// Subject: Human-Computer Interaction
     /// </summary>
 
     public partial class MainWindow : Window
