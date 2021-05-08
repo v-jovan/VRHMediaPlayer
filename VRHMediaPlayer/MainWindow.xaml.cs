@@ -20,12 +20,12 @@ namespace VRHMediaPlayer
 
         private bool mediaPlayerIsPlaying = false,
                      repeat = false,
-                     mute = false;
+                     mute = false,
+                     previous = false,
+                     fullscreen = false;
 
         private double currentVolume = 0;
-        private readonly List<string> songs_in_playlist = new();
-        private bool previous = false,
-                     fullscreen = false;
+        private readonly List<string> mediaInPlaylist = new();
 
         private string theme = "default";
         private readonly string TITLE = "VRHPlayer";
@@ -99,7 +99,7 @@ namespace VRHMediaPlayer
                     {
                         Playlist.Items.Add(System.IO.Path.GetFileNameWithoutExtension(ofd_one.FileName));
                         string song = ofd_one.FileName;
-                        songs_in_playlist.Add(song);
+                        mediaInPlaylist.Add(song);
                         Playlist.SelectedItem = Playlist.Items.GetItemAt(0);
 
                         mediaPlayerIsPlaying = true;
@@ -113,6 +113,17 @@ namespace VRHMediaPlayer
                     MediaPlayer.Play();
                     Slider.IsEnabled = true;
                     Splash.Visibility = Visibility.Hidden;
+                    if (mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".mp4") ||
+                    mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".ogg"))
+                    {
+                        Playlist.Visibility = Visibility.Hidden;
+                        Notes.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        Playlist.Visibility = Visibility.Visible;
+                        Notes.Visibility = Visibility.Visible;
+                    }
                 }
             }
             else
@@ -135,9 +146,9 @@ namespace VRHMediaPlayer
             bool? dialog = ofd_playlist.ShowDialog();
             if (dialog.HasValue && dialog.Value)
             {
-                string[] songs = ofd_playlist.FileNames;
-                songs_in_playlist.Clear();
-                songs_in_playlist.AddRange(songs);
+                string[] mediaFile = ofd_playlist.FileNames;
+                mediaInPlaylist.Clear();
+                mediaInPlaylist.AddRange(mediaFile);
 
                 string[] lines = ofd_playlist.SafeFileNames;
                 Playlist.Items.Clear();
@@ -145,7 +156,6 @@ namespace VRHMediaPlayer
                 {
                     Playlist.Items.Add(System.IO.Path.GetFileNameWithoutExtension(line));
                 }
-                MediaPlayer.Source = new Uri(ofd_playlist.FileName);
 
                 Playlist.SelectedItem = Playlist.Items.GetItemAt(0);
             }
@@ -155,6 +165,17 @@ namespace VRHMediaPlayer
             if (MediaPlayer.Source != null)
             {
                 Splash.Visibility = Visibility.Hidden;
+                if (mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".mp4") ||
+                    mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".ogg"))
+                {
+                    Playlist.Visibility = Visibility.Hidden;
+                    Notes.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    Playlist.Visibility = Visibility.Visible;
+                    Notes.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -209,24 +230,33 @@ namespace VRHMediaPlayer
 
         private void Playlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Playlist.Items.IsEmpty)
+            if (Playlist.Items.IsEmpty)
             {
-                MediaPlayer.Source = new Uri(songs_in_playlist.ElementAt(Playlist.SelectedIndex));
-                this.Title = TITLE + " - " + Playlist.SelectedItem.ToString();
-                previous = false;
-                Slider.Minimum = 0;
-                PlayPauseButton.Content = FindResource("Pause");
-                MediaPlayer.Play();
-                Slider.IsEnabled = true;
-                Splash.Visibility = Visibility.Hidden;
-
-                // the playlist has to be hidden while a video is playing
-                if (songs_in_playlist.ElementAt(Playlist.SelectedIndex).EndsWith(".mp4") ||
-                    songs_in_playlist.ElementAt(Playlist.SelectedIndex).EndsWith(".ogg"))
-                    Playlist.Visibility = Visibility.Hidden;
-                else
-                    Playlist.Visibility = Visibility.Visible;
+                return;
             }
+
+            this.Title = TITLE + " - " + Playlist.SelectedItem.ToString();
+            previous = false;
+            Slider.Minimum = 0;
+            PlayPauseButton.Content = FindResource("Pause");
+            Slider.IsEnabled = true;
+            Splash.Visibility = Visibility.Hidden;
+
+            // the playlist has to be hidden while a video is playing
+            if (mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".mp4") ||
+                mediaInPlaylist.ElementAt(Playlist.SelectedIndex).EndsWith(".ogg"))
+            {
+                Playlist.Visibility = Visibility.Hidden;
+                Notes.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Playlist.Visibility = Visibility.Visible;
+                Notes.Visibility = Visibility.Visible;
+            }
+
+            MediaPlayer.Source = new Uri(mediaInPlaylist.ElementAt(Playlist.SelectedIndex));
+            MediaPlayer.Play();
         }
 
         private void Previous_Click(object sender, RoutedEventArgs e)
@@ -250,7 +280,7 @@ namespace VRHMediaPlayer
         {
             if (Playlist.SelectedIndex < Playlist.Items.Count - 1)
             {
-                Playlist.SelectedItem = ++Playlist.SelectedIndex;
+                Playlist.SelectedIndex++;
             }
         }
 
@@ -299,6 +329,44 @@ namespace VRHMediaPlayer
             fullscreen = !fullscreen;
         }
 
+        private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            MediaPlayer.Pause();
+        }
+
+        private void Slider_Dragging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            int position = Convert.ToInt32(Slider.Value);
+            MediaPlayer.Position = new TimeSpan(0, 0, 0, position, 0);
+            MediaPlayer.Play();
+        }
+
+        private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (repeat)
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                MediaPlayer.Play();
+            }
+            else if ((Playlist.SelectedIndex + 1) == (Playlist.Items.Count))
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                PlayPauseButton.Content = FindResource("Play");
+            }
+            else
+            {
+                MediaPlayer.Position = TimeSpan.Zero;
+                Slider.Value = 0;
+                Next_Click(sender, e);
+            }
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("VRHPlayer is a simple media player created in WPF and C#.", "About the player...", MessageBoxButton.OK);
+        }
+
+        // as it's a *simple* media player, the themes are made simple
         private void DefaultTheme_Click(object sender, RoutedEventArgs e)
         {
             TomatoTheme.IsChecked = false;
@@ -318,13 +386,6 @@ namespace VRHMediaPlayer
             Slider.ClearValue(Slider.ForegroundProperty);
         }
 
-        private void Slider_Dragging(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-        {
-            int position = Convert.ToInt32(Slider.Value);
-            MediaPlayer.Position = new TimeSpan(0, 0, 0, position, 0);
-        }
-
-        // as it's a *simple* media player, the themes are made simple
         private void TomatoTheme_Click(object sender, RoutedEventArgs e)
         {
             DefaultTheme.IsChecked = false;
@@ -361,30 +422,6 @@ namespace VRHMediaPlayer
 
             VolumeSlider.Foreground = Brushes.Lime;
             Slider.Foreground = Brushes.Lime;
-        }
-
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("VRHPlayer is a simple media player created in WPF and C#.", "About the player...", MessageBoxButton.OK);
-        }
-
-        private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            if (repeat)
-            {
-                MediaPlayer.Position = TimeSpan.Zero;
-                MediaPlayer.Play();
-            }
-            else if ((Playlist.SelectedIndex + 1) == (Playlist.Items.Count))
-            {
-                MediaPlayer.Stop();
-                MediaPlayer.Position = TimeSpan.Zero;
-                PlayPauseButton.Content = FindResource("Play");
-            }
-            else
-            {
-                Next_Click(sender, e);
-            }
         }
     }
 }

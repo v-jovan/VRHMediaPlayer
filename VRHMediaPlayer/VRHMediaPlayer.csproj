@@ -25,6 +25,7 @@
     <Resource Include="images\icon-prev.png" />
     <Resource Include="images\icon-repeat.png" />
     <Resource Include="images\icon-stop.png" />
+    <Resource Include="images\music_bg.png" />
     <Resource Include="images\splash_screen.png" />
   </ItemGroup>
 

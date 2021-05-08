@@ -42,7 +42,8 @@
         <Grid x:Name="PlayerGrid" Margin="0,22,0,0" Background="Black">
             <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" Panel.ZIndex="1" />
             <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" />
-            <ListBox x:Name="Playlist" Padding="3" SelectionChanged="Playlist_SelectionChanged" TextElement.Foreground="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Margin="5" Panel.ZIndex="2">
+            <Image x:Name="Notes" Source="pack://application:,,,/VRHMediaPlayer;component/images/music_bg.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" Visibility="Hidden" />
+            <ListBox x:Name="Playlist" Padding="3" SelectionChanged="Playlist_SelectionChanged" TextElement.Foreground="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  Margin="5" Panel.ZIndex="4">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                         <Style.Triggers>
@@ -60,7 +61,7 @@
             </ListBox>
         </Grid>
         <Grid Margin="0,0,0,77" Grid.Row="1">
-            <Slider x:Name="Slider" IsMoveToPointEnabled="True" Thumb.DragCompleted="Slider_Dragging" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0" TickFrequency="0.25" Padding="2" />
+            <Slider x:Name="Slider" IsMoveToPointEnabled="True" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_Dragging" ValueChanged="Slider_ValueChanged" Margin="40,3,40,0" TickFrequency="0.25" Padding="2" />
             <Label x:Name="CurrentTime" Content="--:--" HorizontalAlignment="Left" Margin="5,2,0,0" VerticalAlignment="Top"/>
             <Label x:Name="Duration" Content="--:--" HorizontalAlignment="Right" Margin="0,2,5,0" VerticalAlignment="Top"/>
         </Grid>

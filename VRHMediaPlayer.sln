@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRHMediaPlayer", "VRHMediaPlayer\VRHMediaPlayer.csproj", "{6C515269-CD34-4D2A-9707-39C5885D338A}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "vrhplayerSetup", "vrhplayerSetup\vrhplayerSetup.vdproj", "{65FCEBF5-26C6-4C64-89C3-FCD248418259}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "vrhplayer_setup", "vrhplayer_setup\vrhplayer_setup.vdproj", "{C02BD00C-D2B7-405D-9175-415F31A59E1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{6C515269-CD34-4D2A-9707-39C5885D338A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C515269-CD34-4D2A-9707-39C5885D338A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C515269-CD34-4D2A-9707-39C5885D338A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65FCEBF5-26C6-4C64-89C3-FCD248418259}.Debug|Any CPU.ActiveCfg = Debug
-		{65FCEBF5-26C6-4C64-89C3-FCD248418259}.Release|Any CPU.ActiveCfg = Release
+		{C02BD00C-D2B7-405D-9175-415F31A59E1D}.Debug|Any CPU.ActiveCfg = Debug
+		{C02BD00C-D2B7-405D-9175-415F31A59E1D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
