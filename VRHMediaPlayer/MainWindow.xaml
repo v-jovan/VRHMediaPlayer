@@ -16,10 +16,12 @@
     </Window.Resources>
 
     <Grid Margin="0">
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
         <DockPanel>
             <Menu x:Name="Menu" IsMainMenu="True"  DockPanel.Dock="Bottom" FontSize="12">
                 <MenuItem Header="Menu" Height="35">
