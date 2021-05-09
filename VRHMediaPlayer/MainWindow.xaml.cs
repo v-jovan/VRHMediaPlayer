@@ -138,6 +138,7 @@ namespace VRHMediaPlayer
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             MediaPlayer.Close();
+            MediaPlayer.Stop();
             Slider.Value = 0;
             Slider.IsEnabled = false;
             PlayPauseButton.Content = FindResource("Play");
@@ -190,6 +191,7 @@ namespace VRHMediaPlayer
                 VolumeSlider.Value = VolumeSlider.Minimum;
                 MediaPlayer.Volume = VolumeSlider.Minimum;
                 MuteButton.Background = Brushes.Red;
+                MuteButton.BorderBrush = Brushes.Red;
             }
             else
             {
@@ -200,14 +202,17 @@ namespace VRHMediaPlayer
                 if (theme == "default")
                 {
                     MuteButton.ClearValue(Button.BackgroundProperty);
+                    MuteButton.ClearValue(Button.BorderBrushProperty);
                 }
                 else if (theme == "tomato")
                 {
                     MuteButton.Background = Brushes.Tomato;
+                    MuteButton.BorderBrush = Brushes.Tomato;
                 }
                 else
                 {
                     MuteButton.Background = Brushes.Lime;
+                    MuteButton.BorderBrush = Brushes.Lime;
                 }
             }
         }
@@ -223,7 +228,7 @@ namespace VRHMediaPlayer
             MediaPlayer.Position = TimeSpan.FromSeconds(Slider.Value);
 
 
-            if ((Slider.Value == Slider.Maximum) && (repeat))
+            if ((Slider.Value == Slider.Maximum) && repeat && (PlayPauseButton.Content == FindResource("Pause")))
             {
                 MediaPlayer.Position = TimeSpan.Zero;
                 MediaPlayer.Play();
@@ -284,6 +289,10 @@ namespace VRHMediaPlayer
             {
                 Playlist.SelectedIndex++;
             }
+            else
+            {
+                Playlist.SelectedIndex = 0;
+            }
         }
 
         private void Repeat_Click(object sender, RoutedEventArgs e)
@@ -291,6 +300,7 @@ namespace VRHMediaPlayer
             if (!repeat)
             {
                 RepeatButton.Background = Brushes.Red;
+                RepeatButton.BorderBrush = Brushes.Red;
                 repeat = true;
             }
             else
@@ -298,14 +308,17 @@ namespace VRHMediaPlayer
                 if (theme == "default")
                 {
                     RepeatButton.ClearValue(Button.BackgroundProperty);
+                    RepeatButton.ClearValue(Button.BorderBrushProperty);
                 }
                 else if (theme == "tomato")
                 {
                     RepeatButton.Background = Brushes.Tomato;
+                    RepeatButton.BorderBrush = Brushes.Tomato;
                 }
                 else
                 {
                     RepeatButton.Background = Brushes.Lime;
+                    RepeatButton.BorderBrush = Brushes.Lime;
                 }
                 repeat = false;
             }
@@ -345,15 +358,10 @@ namespace VRHMediaPlayer
 
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
-            if (repeat)
+            if (repeat && (PlayPauseButton.Content == FindResource("Pause")))
             {
                 MediaPlayer.Position = TimeSpan.Zero;
                 MediaPlayer.Play();
-            }
-            else if ((Playlist.SelectedIndex + 1) == (Playlist.Items.Count))
-            {
-                MediaPlayer.Position = TimeSpan.Zero;
-                PlayPauseButton.Content = FindResource("Play");
             }
             else
             {
@@ -365,7 +373,7 @@ namespace VRHMediaPlayer
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("VRHPlayer is a simple media player created in WPF and C#.", "About the player...", MessageBoxButton.OK);
+            MessageBox.Show("VRHPlayer is a simple media player created in WPF and C#.", "About the player...", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // as it's a *simple* media player, the themes are made simple
@@ -376,13 +384,21 @@ namespace VRHMediaPlayer
             theme = "default";
 
             PlayPauseButton.ClearValue(Button.BackgroundProperty);
+            PlayPauseButton.ClearValue(Button.BorderBrushProperty);
             PreviousButton.ClearValue(Button.BackgroundProperty);
+            PreviousButton.ClearValue(Button.BorderBrushProperty);
             StopButton.ClearValue(Button.BackgroundProperty);
+            StopButton.ClearValue(Button.BorderBrushProperty);
             NextButton.ClearValue(Button.BackgroundProperty);
+            NextButton.ClearValue(Button.BorderBrushProperty);
             RepeatButton.ClearValue(Button.BackgroundProperty);
+            RepeatButton.ClearValue(Button.BorderBrushProperty);
             OpenButton.ClearValue(Button.BackgroundProperty);
+            OpenButton.ClearValue(Button.BorderBrushProperty);
             FullscreenButton.ClearValue(Button.BackgroundProperty);
+            FullscreenButton.ClearValue(Button.BorderBrushProperty);
             MuteButton.ClearValue(Button.BackgroundProperty);
+            MuteButton.ClearValue(Button.BorderBrushProperty);
 
             VolumeSlider.ClearValue(Slider.ForegroundProperty);
             Slider.ClearValue(Slider.ForegroundProperty);
@@ -395,13 +411,21 @@ namespace VRHMediaPlayer
             theme = "tomato";
 
             PlayPauseButton.Background = Brushes.Tomato;
+            PlayPauseButton.BorderBrush = Brushes.Tomato;
             PreviousButton.Background = Brushes.Tomato;
+            PreviousButton.BorderBrush = Brushes.Tomato;
             StopButton.Background = Brushes.Tomato;
+            StopButton.BorderBrush = Brushes.Tomato;
             NextButton.Background = Brushes.Tomato;
+            NextButton.BorderBrush = Brushes.Tomato;
             RepeatButton.Background = Brushes.Tomato;
+            RepeatButton.BorderBrush = Brushes.Tomato;
             OpenButton.Background = Brushes.Tomato;
+            OpenButton.BorderBrush = Brushes.Tomato;
             FullscreenButton.Background = Brushes.Tomato;
+            FullscreenButton.BorderBrush = Brushes.Tomato;
             MuteButton.Background = Brushes.Tomato;
+            MuteButton.BorderBrush = Brushes.Tomato;
 
             VolumeSlider.Foreground = Brushes.Tomato;
             Slider.Foreground = Brushes.Tomato;
@@ -414,13 +438,21 @@ namespace VRHMediaPlayer
             theme = "lime";
 
             PlayPauseButton.Background = Brushes.Lime;
+            PlayPauseButton.BorderBrush = Brushes.Lime;
             PreviousButton.Background = Brushes.Lime;
+            PreviousButton.BorderBrush = Brushes.Lime;
             StopButton.Background = Brushes.Lime;
+            StopButton.BorderBrush = Brushes.Lime;
             NextButton.Background = Brushes.Lime;
+            NextButton.BorderBrush = Brushes.Lime;
             RepeatButton.Background = Brushes.Lime;
+            RepeatButton.BorderBrush = Brushes.Lime;
             OpenButton.Background = Brushes.Lime;
+            OpenButton.BorderBrush = Brushes.Lime;
             FullscreenButton.Background = Brushes.Lime;
+            FullscreenButton.BorderBrush = Brushes.Lime;
             MuteButton.Background = Brushes.Lime;
+            MuteButton.BorderBrush = Brushes.Lime;
 
             VolumeSlider.Foreground = Brushes.Lime;
             Slider.Foreground = Brushes.Lime;

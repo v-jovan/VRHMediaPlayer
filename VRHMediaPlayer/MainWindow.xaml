@@ -20,26 +20,36 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="Menu" DockPanel.Dock="Top" FontSize="12">
-            <MenuItem Header="Menu" Height="20">
-                <MenuItem Header="Open..." Click="OpenButton_Click" />
-                <MenuItem Header="Themes" x:Name="ColorSelected">
-                    <MenuItem x:Name="DefaultTheme" Header="Default" FontWeight="ExtraBold" IsCheckable="True" Click="DefaultTheme_Click"/>
-                    <MenuItem x:Name="TomatoTheme" Header="Tomato" FontWeight="ExtraBold" IsCheckable="True" Foreground="Tomato" Click="TomatoTheme_Click" />
-                    <MenuItem x:Name="LimeTheme" Header="Lime" FontWeight="ExtraBold" IsCheckable="True" Foreground="Lime" Click="LimeTheme_Click" />
+        <DockPanel>
+            <Menu x:Name="Menu" IsMainMenu="True"  DockPanel.Dock="Bottom" FontSize="12">
+                <MenuItem Header="Menu" Height="35">
+                    <MenuItem Header="Open..." Click="OpenButton_Click"/>
+                    <MenuItem Header="Themes" x:Name="ColorSelected">
+                        <MenuItem x:Name="DefaultTheme" Header="Default" FontWeight="ExtraBold" IsCheckable="True" IsChecked="True" Click="DefaultTheme_Click"/>
+                        <MenuItem x:Name="TomatoTheme" FontWeight="ExtraBold" IsCheckable="True" Click="TomatoTheme_Click" >
+                            <MenuItem.Header>
+                                <TextBlock Foreground="Tomato">Tomato</TextBlock>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem x:Name="LimeTheme" FontWeight="ExtraBold" IsCheckable="True" Click="LimeTheme_Click">
+                            <MenuItem.Header>
+                                <TextBlock Foreground="Lime">Lime</TextBlock>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Exit" Click="MenuExit_Click"/>
                 </MenuItem>
-                <Separator />
-                <MenuItem Header="Exit" Click="MenuExit_Click"/>
-            </MenuItem>
-            <MenuItem Header="Info" Height="20">
-                <MenuItem Header="About the player" Click="About_Click">
-                    <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/VRHMediaPlayer;component//images/icon-info.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </MenuItem.Icon>
+                <MenuItem Header="Info" Height="35">
+                    <MenuItem Header="About the player" Click="About_Click">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/VRHMediaPlayer;component//images/icon-info.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-            </MenuItem>
-        </Menu>
-        <Grid x:Name="PlayerGrid" Margin="0,22,0,0" Background="Black">
+            </Menu>
+        </DockPanel>
+        <Grid x:Name="PlayerGrid" Margin="0,30,0,0" Background="Black">
             <MediaElement x:Name="MediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" MediaEnded="MediaPlayer_MediaEnded" Panel.ZIndex="1" />
             <Image x:Name="Splash" Source="pack://application:,,,/VRHMediaPlayer;component/images/splash_screen.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" />
             <Image x:Name="Notes" Source="pack://application:,,,/VRHMediaPlayer;component/images/music_bg.png" RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True" Panel.ZIndex="3" Visibility="Hidden" />

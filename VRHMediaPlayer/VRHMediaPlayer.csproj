@@ -7,7 +7,7 @@
     <ApplicationIcon>vrh.ico</ApplicationIcon>
     <Authors>Jovan Vrhovac</Authors>
     <Company>ETF</Company>
-    <Description>A simple media player.</Description>
+    <Description>A simple media player made in WPf and C#.</Description>
   </PropertyGroup>
 
   <ItemGroup>
