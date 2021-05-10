@@ -338,7 +338,7 @@ namespace VRHMediaPlayer
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
                 Menu.Visibility = Visibility.Visible;
-                PlayerGrid.Margin = new Thickness(0, 22, 0, 0);
+                PlayerGrid.Margin = new Thickness(0, 30, 0, 0);
             }
 
             fullscreen = !fullscreen;
